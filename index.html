@@ -1,50 +1,105 @@
 <html>
-<body>
 
+<body>
+<div id="border">
 <h3>Welcome to Etch-A-Sketch!</h3>
 <h4>Press button below to change grid size!</h4>
 
 <div class="buttonContainer">
-<button class="newBoardButton">New Board Size</button>
+<button class="newBoardButton">New Board</button>
 </div>
 
 <div class=gameLoop>
+
+</div>
 
 </div>
 </body>
 </html>
 
 <style>
+    body{
+        background-color:rgb(107, 107, 107);
+    }
+    #border{
+        width:60%;
+        margin:0 auto;
+        background-color: #f8f9fa;
+        border: 2px solid #000000;
+        border-radius: 4px;
+    }
+    .gridContainer{
+        width: 660px;
+        height: 660px;
+        background-color:rgb(199, 199, 199);
+        margin: 10px;
+    }
     .squareContainer{
         display:flex;
     }
     .oneSquare{
-        background-color: blue;
-        width:10px;
-        height:10px;
+        background-color: rgb(199, 199, 199);
+    }
+
+    .newBoardButton{
+        margin: 0px 0 20px 0px;
+        width: 6.5em;
+        height: 2.5em;
+        font-size: 1.2em;
+        background-color: #f8f9fa;
+        border: 2px solid #000000;
+        border-radius: 4px;
+    }
+
+    .buttonContainer, h3, h4, .gameLoop { 
+        display: flex;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.5em;
     }
 
 </style>
 <script> 
 
     document.querySelector('.newBoardButton').addEventListener('click', drawBoard);
-    
-    function drawBoard(){
-        const gridDimension = prompt("Enter how many squares per side: ");
-        const gridDimensionNode = document.createElement('div');
+    const gridDimensionNode = document.createElement('div');
+    gridDimensionNode.className = "gridContainer";
+    document.querySelector(".gameLoop").appendChild(gridDimensionNode);
 
-        gridDimensionNode.className = "gridContainer";
-        document.querySelector(".gameLoop").appendChild(gridDimensionNode);
+    function drawBoard(){
+        let gridDimension = "";
+        do{
+            if (gridDimension != null){
+                gridDimension = prompt("Enter how many squares per side between 10 and 100: \n\n(Hint: Enter more squares for a higher resolution sketch pad!)\n");
+            }
+            else break;
+        }while(gridDimension < 10 || gridDimension > 100);
+
+        const squareWidth= 660/gridDimension;
+
+        clearBoard(gridDimensionNode);
 
         for (let i=0; i<gridDimension ; i++){
 
             createSquareContainer(i);
 
             for(let j=0; j<gridDimension; j++){
-                createDiv(i);
+                createDiv(i,squareWidth);
             }
            
-        }        
+        }     
+        let mySquares = document.querySelectorAll('.oneSquare')  
+        mySquares.forEach(mySquare => mySquare.addEventListener('mouseover', changeColor));
+    }
+
+    function changeColor(e){
+        e.target.style.backgroundColor = "blue";
+    }
+
+    function clearBoard(parent){
+        while(parent.firstChild){
+            parent.removeChild(parent.firstChild);
+        }
     }
 
     function createSquareContainer(i){
@@ -53,10 +108,12 @@
         mySquareContainer.className = "squareContainer " + "row" + i;
     }
 
-    function createDiv(i){
+    function createDiv(i, squareWidth){
         const myDiv = document.createElement('div');
-        document.querySelector(".squareContainer."+"row"+i).appendChild(myDiv);
+        document.querySelector(".squareContainer." + "row" + i).appendChild(myDiv);
         myDiv.className = "oneSquare";
+        myDiv.style.width = squareWidth;
+        myDiv.style.height = squareWidth;
     }
         
 </script>
