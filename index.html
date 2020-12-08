@@ -1,0 +1,62 @@
+<html>
+<body>
+
+<h3>Welcome to Etch-A-Sketch!</h3>
+<h4>Press button below to change grid size!</h4>
+
+<div class="buttonContainer">
+<button class="newBoardButton">New Board Size</button>
+</div>
+
+<div class=gameLoop>
+
+</div>
+</body>
+</html>
+
+<style>
+    .squareContainer{
+        display:flex;
+    }
+    .oneSquare{
+        background-color: blue;
+        width:10px;
+        height:10px;
+    }
+
+</style>
+<script> 
+
+    document.querySelector('.newBoardButton').addEventListener('click', drawBoard);
+    
+    function drawBoard(){
+        const gridDimension = prompt("Enter how many squares per side: ");
+        const gridDimensionNode = document.createElement('div');
+
+        gridDimensionNode.className = "gridContainer";
+        document.querySelector(".gameLoop").appendChild(gridDimensionNode);
+
+        for (let i=0; i<gridDimension ; i++){
+
+            createSquareContainer(i);
+
+            for(let j=0; j<gridDimension; j++){
+                createDiv(i);
+            }
+           
+        }        
+    }
+
+    function createSquareContainer(i){
+        const mySquareContainer = document.createElement('div');
+        document.querySelector(".gridContainer").appendChild(mySquareContainer);
+        mySquareContainer.className = "squareContainer " + "row" + i;
+    }
+
+    function createDiv(i){
+        const myDiv = document.createElement('div');
+        document.querySelector(".squareContainer."+"row"+i).appendChild(myDiv);
+        myDiv.className = "oneSquare";
+    }
+        
+</script>
